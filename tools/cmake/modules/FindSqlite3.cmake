@@ -30,7 +30,7 @@ else (SQLITE3_LIBRARIES AND SQLITE3_INCLUDE_DIRS)
     PATHS
       ${_SQLITE3_INCLUDEDIR}
       /usr/include
-      /usr/local/include
+      # /usr/local/include
       /opt/local/include
       /sw/include
   )

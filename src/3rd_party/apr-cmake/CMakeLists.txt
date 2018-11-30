@@ -56,11 +56,14 @@ if(CMAKE_SYSTEM_NAME STREQUAL "QNX")
     "ac_cv_sizeof_struct_iovec=8"
   )
 else()
-  set(CONFIGURE_FLAGS "")
+  set(CONFIGURE_FLAGS 
+    "--host=x86_64-pelux-linux"
+    "ac_cv_sizeof_struct_iovec=8")
 endif()
 
 add_custom_command(OUTPUT ${APR_BUILD_DIRECTORY}/Makefile
-  COMMAND CC=${CMAKE_C_COMPILER} ${APR_SOURCE_DIRECTORY}/configure ${CONFIGURE_FLAGS}
+  # COMMAND CC=${CMAKE_C_COMPILER} ${APR_SOURCE_DIRECTORY}/configure ${CONFIGURE_FLAGS}
+  COMMAND ${APR_SOURCE_DIRECTORY}/configure ${CONFIGURE_FLAGS}
   COMMAND ${CMAKE_COMMAND} -E copy include/apr.h ${APR_SOURCE_DIRECTORY}/include
   WORKING_DIRECTORY ${APR_BUILD_DIRECTORY}
 )

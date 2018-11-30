@@ -13,7 +13,7 @@ FIND_PATH(
     UDEV_INCLUDE_DIR
     libudev.h
     /usr/include
-    /usr/local/include
+    # /usr/local/include
     ${UDEV_PATH_INCLUDES}
 )
 

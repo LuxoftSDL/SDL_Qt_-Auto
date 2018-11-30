@@ -182,6 +182,9 @@ if (${BSON_LIB} MATCHES "BSON_LIB-NOTFOUND")
   set(EMHASHMAP_LIBS_DIRECTORY ${3RD_PARTY_INSTALL_PREFIX}/lib CACHE INTERNAL "Installation path of emashmap libraries" FORCE)
   set(EMHASHMAP_INCLUDE_DIRECTORY ${3RD_PARTY_INSTALL_PREFIX}/include CACHE INTERNAL "Installation path of emashmap headers" FORCE)
 
+  set(CONFIGURE_OPTIONS 
+      "--host=x86_64-pelux-linux")
+   
   set(BSON_INSTALL_COMMAND make install)
   if (${3RD_PARTY_INSTALL_PREFIX} MATCHES "/usr/local")
     set(BSON_INSTALL_COMMAND sudo make install)
@@ -194,7 +197,7 @@ if (${BSON_LIB} MATCHES "BSON_LIB-NOTFOUND")
       INSTALL_DIR ${3RD_PARTY_INSTALL_PREFIX}
       DOWNLOAD_DIR ${BSON_LIB_SOURCE_DIRECTORY}
       SOURCE_DIR ${BSON_LIB_SOURCE_DIRECTORY}
-      CONFIGURE_COMMAND touch aclocal.m4 configure.ac Makefile.am Makefile.in configure config.h.in && ./configure --prefix=${3RD_PARTY_INSTALL_PREFIX}
+      CONFIGURE_COMMAND touch aclocal.m4 configure.ac Makefile.am Makefile.in configure config.h.in && ./configure --prefix=${3RD_PARTY_INSTALL_PREFIX} ${CONFIGURE_OPTIONS}
       BUILD_COMMAND make
       INSTALL_COMMAND ${BSON_INSTALL_COMMAND})
 else()
@@ -215,23 +218,40 @@ set(BOOST_LIBS_DIRECTORY ${3RD_PARTY_INSTALL_PREFIX}/lib)
 SET_PROPERTY(GLOBAL PROPERTY GLOBAL_BOOST_LIBS ${BOOST_LIBS_DIRECTORY})
 set(BOOST_INCLUDE_DIRECTORY ${3RD_PARTY_INSTALL_PREFIX}/include )
 if (NOT ${Boost_FOUND})
-  message(STATUS "Did not find boost. Downloading and installing boost 1.66")
-  set(BOOST_INSTALL_COMMAND ./b2 install)
+set(
+  BOOST_QNX_PROJECT_CONFIG_JAM
+  "using gcc : qta : x86_64-pelux-linux-gcc  -march=corei7 -mtune=corei7 -mfpmath=sse -msse4.2 --sysroot=/opt/qta/sysroots/corei7-64-pelux-linux : ")
+
+  set(
+  BOOTSTRAP
+  env CC=\"\" ./bootstrap.sh --with-toolset=gcc --with-libraries=system,thread,date_time,filesystem --prefix=${3RD_PARTY_INSTALL_PREFIX})
+  # string(STRIP "$ENV{CXXFLAGS}" LOL)
+
+  set(
+    BOOST_BUILD_COMMAND 
+    ./b2 toolset=gcc-qta)
+
+  message(STATUS "=============================${BOOST_BUILD_COMMAND}")
+  set(BOOST_INSTALL_COMMAND ${BOOST_BUILD_COMMAND} install > boost_install.log)
   if (${3RD_PARTY_INSTALL_PREFIX} MATCHES "/usr/local")
-    set(BOOST_INSTALL_COMMAND sudo ./b2 install)
+    set(BOOST_INSTALL_COMMAND sudo ${BOOST_BUILD_COMMAND} install > boost_install.log)
   endif()
+
   include(ExternalProject)
   ExternalProject_Add(
     Boost
-    URL https://dl.bintray.com/boostorg/release/1.66.0/source/boost_1_66_0.tar.gz
+    URL http://dl.bintray.com/boostorg/release/1.66.0/source/boost_1_66_0.tar.gz
     DOWNLOAD_DIR ${BOOST_LIB_SOURCE_DIRECTORY}
-    SOURCE_DIR ${BOOST_LIB_SOURCE_DIRECTORY}
-    CONFIGURE_COMMAND ./bootstrap.sh --with-libraries=system,thread,date_time,filesystem --prefix=${3RD_PARTY_INSTALL_PREFIX}
-    BUILD_COMMAND ./b2
-    INSTALL_COMMAND ${BOOST_INSTALL_COMMAND} --with-system --with-thread --with-date_time --with-filesystem --prefix=${3RD_PARTY_INSTALL_PREFIX} > boost_install.log
+    SOURCE_DIR ${BOOST_LIB_SOURCE_DIRECTORY}  
+    # CONFIGURE_COMMAND ${UNSET_CC} COMMAND ${ECHO} COMMAND ${BOOTSTRAP} COMMAND ${SET_CC} COMMAND ${ECHO}
+    CONFIGURE_COMMAND ${BOOTSTRAP}
+    BUILD_COMMAND echo ${BOOST_QNX_PROJECT_CONFIG_JAM} $<SEMICOLON> >> ./project-config.jam COMMAND ${BOOST_BUILD_COMMAND}
+    INSTALL_COMMAND ${BOOST_INSTALL_COMMAND}
     INSTALL_DIR ${3RD_PARTY_INSTALL_PREFIX}
     BUILD_IN_SOURCE true
   )
+
+  message(STATUS ">>>>>>>>>>>>>>>>>>>>>>>>>>BOOST CONFIGURE COMMAND IS: ${CONFIGURE_COMMAND}")
 
   set(BOOST_INCLUDE_DIR ${BOOST_ROOT_DIR}/Boost-prefix/src/Boost)
   set(BOOST_LIB_DIR ${BOOST_ROOT_DIR}/Boost-prefix/src/Boost/stage/lib/)

@@ -23111,25 +23111,25 @@ fi
   fi
 
 
-  if test "x$CPPFLAGS" = "x"; then
-    test "x$silent" != "xyes" && echo "  setting CPPFLAGS to \"-I/usr/local/include\""
-    CPPFLAGS="-I/usr/local/include"
-  else
-    apr_addto_bugger="-I/usr/local/include"
-    for i in $apr_addto_bugger; do
-      apr_addto_duplicate="0"
-      for j in $CPPFLAGS; do
-        if test "x$i" = "x$j"; then
-          apr_addto_duplicate="1"
-          break
-        fi
-      done
-      if test $apr_addto_duplicate = "0"; then
-        test "x$silent" != "xyes" && echo "  adding \"$i\" to CPPFLAGS"
-        CPPFLAGS="$CPPFLAGS $i"
-      fi
-    done
-  fi
+  # if test "x$CPPFLAGS" = "x"; then
+  #   test "x$silent" != "xyes" && echo "  setting CPPFLAGS to \"-I/usr/local/include\""
+  #   CPPFLAGS="-I/usr/local/include"
+  # else
+  #   apr_addto_bugger="-I/usr/local/include"
+  #   for i in $apr_addto_bugger; do
+  #     apr_addto_duplicate="0"
+  #     for j in $CPPFLAGS; do
+  #       if test "x$i" = "x$j"; then
+  #         apr_addto_duplicate="1"
+  #         break
+  #       fi
+  #     done
+  #     if test $apr_addto_duplicate = "0"; then
+  #       test "x$silent" != "xyes" && echo "  adding \"$i\" to CPPFLAGS"
+  #       CPPFLAGS="$CPPFLAGS $i"
+  #     fi
+  #   done
+  # fi
 
 
 
@@ -23173,25 +23173,25 @@ $as_echo "#define HAVE_EXPAT_H 1" >>confdefs.h
    apu_expat_libs="-lexpat"
    apu_has_expat=1
 
-  if test "x$APRUTIL_INCLUDES" = "x"; then
-    test "x$silent" != "xyes" && echo "  setting APRUTIL_INCLUDES to \"-I/usr/local/include\""
-    APRUTIL_INCLUDES="-I/usr/local/include"
-  else
-    apr_addto_bugger="-I/usr/local/include"
-    for i in $apr_addto_bugger; do
-      apr_addto_duplicate="0"
-      for j in $APRUTIL_INCLUDES; do
-        if test "x$i" = "x$j"; then
-          apr_addto_duplicate="1"
-          break
-        fi
-      done
-      if test $apr_addto_duplicate = "0"; then
-        test "x$silent" != "xyes" && echo "  adding \"$i\" to APRUTIL_INCLUDES"
-        APRUTIL_INCLUDES="$APRUTIL_INCLUDES $i"
-      fi
-    done
-  fi
+  # if test "x$APRUTIL_INCLUDES" = "x"; then
+  #   test "x$silent" != "xyes" && echo "  setting APRUTIL_INCLUDES to \"-I/usr/local/include\""
+  #   APRUTIL_INCLUDES="-I/usr/local/include"
+  # else
+  #   apr_addto_bugger="-I/usr/local/include"
+  #   for i in $apr_addto_bugger; do
+  #     apr_addto_duplicate="0"
+  #     for j in $APRUTIL_INCLUDES; do
+  #       if test "x$i" = "x$j"; then
+  #         apr_addto_duplicate="1"
+  #         break
+  #       fi
+  #     done
+  #     if test $apr_addto_duplicate = "0"; then
+  #       test "x$silent" != "xyes" && echo "  adding \"$i\" to APRUTIL_INCLUDES"
+  #       APRUTIL_INCLUDES="$APRUTIL_INCLUDES $i"
+  #     fi
+  #   done
+  # fi
 
 
   if test "x$APRUTIL_LDFLAGS" = "x"; then
