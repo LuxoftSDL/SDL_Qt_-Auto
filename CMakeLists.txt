@@ -233,6 +233,7 @@ set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} "${CMAKE_SOURCE_DIR}/cmake/Modules/")
 # Please do not change compiler/linker flags if You do not know how particular
 # flag is handled by CMake
 set(CMAKE_INSTALL_PREFIX ${CMAKE_CURRENT_BINARY_DIR})
+set(CMAKE_STAGING_PREFIX ${CMAKE_INSTALL_PREFIX})
 set(ARCHIVE_OUTPUT_DIRECTORY ./bin)
 
 set(CMAKE_CXX_FLAGS "-fPIC -std=gnu++11 -Wall -Werror -Wuninitialized -Wvla")
