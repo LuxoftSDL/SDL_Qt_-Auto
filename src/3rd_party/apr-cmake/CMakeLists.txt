@@ -58,8 +58,26 @@ if(CMAKE_SYSTEM_NAME STREQUAL "QNX")
 else()
   set(CONFIGURE_FLAGS 
     "--host=x86_64-pelux-linux"
-    "ac_cv_sizeof_struct_iovec=8")
+    "ac_cv_file__dev_zero=yes"
+    "ac_cv_func_setpgrp_void=yes"
+    "apr_cv_process_shared_works=yes"
+    "apr_cv_mutex_recursive=yes"
+    "apr_cv_mutex_robust_shared=no"
+    "apr_cv_tcp_nodelay_with_cork=no"
+    "ac_cv_sizeof_struct_iovec=8"
+    )
 endif()
+
+set(CONFIGURE_FLAGS 
+    "--host=x86_64-pelux-linux"
+    "ac_cv_file__dev_zero=yes"
+    "ac_cv_func_setpgrp_void=yes"
+    "apr_cv_process_shared_works=yes"
+    "apr_cv_mutex_recursive=yes"
+    "apr_cv_mutex_robust_shared=no"
+    "apr_cv_tcp_nodelay_with_cork=no"
+    "ac_cv_sizeof_struct_iovec=8"
+)
 
 add_custom_command(OUTPUT ${APR_BUILD_DIRECTORY}/Makefile
   # COMMAND CC=${CMAKE_C_COMPILER} ${APR_SOURCE_DIRECTORY}/configure ${CONFIGURE_FLAGS}

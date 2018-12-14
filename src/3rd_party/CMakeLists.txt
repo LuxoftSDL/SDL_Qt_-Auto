@@ -182,8 +182,10 @@ if (${BSON_LIB} MATCHES "BSON_LIB-NOTFOUND")
   set(EMHASHMAP_LIBS_DIRECTORY ${3RD_PARTY_INSTALL_PREFIX}/lib CACHE INTERNAL "Installation path of emashmap libraries" FORCE)
   set(EMHASHMAP_INCLUDE_DIRECTORY ${3RD_PARTY_INSTALL_PREFIX}/include CACHE INTERNAL "Installation path of emashmap headers" FORCE)
 
-  set(CONFIGURE_OPTIONS 
-      "--host=x86_64-pelux-linux")
+
+  set(CONFIGURE_FLAGS
+    "--host=x86_64-pelux-linux"
+    "--prefix=${3RD_PARTY_INSTALL_PREFIX}")
    
   set(BSON_INSTALL_COMMAND make install)
   if (${3RD_PARTY_INSTALL_PREFIX} MATCHES "/usr/local")
@@ -197,7 +199,7 @@ if (${BSON_LIB} MATCHES "BSON_LIB-NOTFOUND")
       INSTALL_DIR ${3RD_PARTY_INSTALL_PREFIX}
       DOWNLOAD_DIR ${BSON_LIB_SOURCE_DIRECTORY}
       SOURCE_DIR ${BSON_LIB_SOURCE_DIRECTORY}
-      CONFIGURE_COMMAND touch aclocal.m4 configure.ac Makefile.am Makefile.in configure config.h.in && ./configure --prefix=${3RD_PARTY_INSTALL_PREFIX} ${CONFIGURE_OPTIONS}
+      CONFIGURE_COMMAND touch aclocal.m4 configure.ac Makefile.am Makefile.in configure config.h.in && ./configure ${CONFIGURE_FLAGS}
       BUILD_COMMAND make
       INSTALL_COMMAND ${BSON_INSTALL_COMMAND})
 else()
@@ -216,7 +218,7 @@ find_package(Boost 1.66.0 COMPONENTS system thread date_time filesystem)
 set(BOOST_LIB_SOURCE_DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}/boost_src)
 set(BOOST_LIBS_DIRECTORY ${3RD_PARTY_INSTALL_PREFIX}/lib)
 SET_PROPERTY(GLOBAL PROPERTY GLOBAL_BOOST_LIBS ${BOOST_LIBS_DIRECTORY})
-set(BOOST_INCLUDE_DIRECTORY ${3RD_PARTY_INSTALL_PREFIX}/include )
+set(BOOST_INCLUDE_DIRECTORY ${3RD_PARTY_INSTALL_PREFIX}/include PARENT_SCOPE)
 if (NOT ${Boost_FOUND})
 set(
   BOOST_QNX_PROJECT_CONFIG_JAM

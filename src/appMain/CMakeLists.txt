@@ -69,7 +69,7 @@ include_directories(
   ${OPENSSL_INCLUDE_DIRECTORY}
   ${default_media_inc}
   ${MESSAGE_BROKER_INCLUDE_DIRECTORY}
-  ${BOOST_INCLUDE_DIR}
+  ${BOOST_INCLUDE_DIRECTORY}
   ${CMAKE_SOURCE_DIR}/src
 )
 
